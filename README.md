@@ -2,6 +2,13 @@
 
 This is a submission for the [Hacktoberfest Weekend Challenge: Build for a Friend](https://dev.to/challenges/hacktoberfest-weekend-2026-10-01)
 
+## Demo
+
+**Live demo:** [Pantry Pal](https://pantrypal-dlsb.onrender.com)
+
+
+---
+
 ## What I Built
 
 You know that feeling?
@@ -69,12 +76,6 @@ It's to make the contents of your kitchen more useful.
 
 ---
 
-## Demo
-
-**Live demo:** <!-- Add deployed link -->
-
-
----
 
 ## How I Built It
 
