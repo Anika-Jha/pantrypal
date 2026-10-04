@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f5ee"><meta name="description" content="Turn what's already in your kitchen into dinner. PantryPal helps you find a meal, cook it, and waste less.">
+  <title>PantryPal — There’s a meal in there.</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="PantryPal home"><span class="brand-mark">p<span>✳</span></span><span>pantry<span class="brand-light">pal</span></span></a>
+      <div class="side-label">YOUR KITCHEN</div>
+      <nav class="nav-list">
+        <a href="#home" class="nav-link active" data-route="home"><span class="nav-icon">⌂</span> Home</a>
+        <a href="#pantry" class="nav-link" data-route="pantry"><span class="nav-icon">▤</span> My pantry <span id="pantry-count" class="nav-count">0</span></a>
+        <a href="#cook" class="nav-link" data-route="cook"><span class="nav-icon">✳</span> What to cook</a>
+        <a href="#recipes" class="nav-link" data-route="recipes"><span class="nav-icon">♡</span> My recipes</a>
+        <a href="#planner" class="nav-link" data-route="planner"><span class="nav-icon">▦</span> Meal planner</a>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-prompt"><div class="prompt-icon">✳</div><strong>There’s a meal in there.</strong><p>Let’s make something lovely with what you’ve got.</p><a href="#cook">Find your next meal <span>→</span></a></div>
+      <a href="#settings" class="nav-link settings-link" data-route="settings"><span class="nav-icon">⚙</span> Settings</a>
+      <button class="profile-row" type="button" aria-label="Open kitchen settings" onclick="location.hash='#settings'"><span class="avatar">K</span><span class="profile-name"><strong>Your kitchen</strong><small>Personal pantry</small></span><span class="profile-more">···</span></button>
+    </aside>
+    <main class="main-area">
+      <header class="mobile-header"><a class="brand" href="#home"><span class="brand-mark">p<span>✳</span></span><span>pantry<span class="brand-light">pal</span></span></a><button class="icon-button" id="mobile-quick-add" aria-label="Quick add ingredients">＋</button></header>
+      <div class="topbar"><div class="breadcrumbs"><span>YOUR KITCHEN</span><b>/</b><strong id="page-name">Home</strong></div><div class="top-actions"><div class="storage-pill"><span class="status-dot"></span><span id="connection-label">Your pantry is ready</span></div><button class="avatar top-avatar" title="Settings" onclick="location.hash='#settings'">K</button></div></div>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      <div id="view" class="view" tabindex="-1"></div>
+      <nav class="bottom-nav" aria-label="Mobile navigation"><a href="#home" data-route="home" class="active"><span>⌂</span>Home</a><a href="#pantry" data-route="pantry"><span>▤</span>Pantry</a><a href="#cook" data-route="cook" class="cook-tab"><span>✳</span>Cook</a><a href="#recipes" data-route="recipes"><span>♡</span>Recipes</a><a href="#settings" data-route="settings"><span>⚙</span>Settings</a></nav>
+    </main>
+  </div>
+  <dialog id="quick-add-dialog" class="modal"><form method="dialog" class="modal-close-row"><span class="eyebrow">A LITTLE KITCHEN UPDATE</span><button class="icon-button" aria-label="Close">×</button></form><h2>What did you bring home?</h2><p class="muted">Tell me what’s in your kitchen. I’ll help get it sorted.</p><textarea id="quick-text" rows="3" placeholder="e.g. 2 packets of paneer, milk and some spinach"></textarea><div class="example-chips"><button type="button" data-example="milk, paneer, spinach, tomatoes and eggs">The demo pantry</button><button type="button" data-example="2 packets paneer, spinach, tomatoes">Paneer dinner</button></div><div class="modal-actions"><button class="button secondary" value="cancel">Maybe later</button><button class="button primary" id="parse-button" type="button">Sort ingredients <span>→</span></button></div><div id="parse-error" class="inline-error" role="alert"></div></dialog>
+  <dialog id="confirm-dialog" class="modal"><form method="dialog" class="modal-close-row"><span class="eyebrow">CHECKING THE LIST</span><button class="icon-button" aria-label="Close">×</button></form><h2>Did I get everything?</h2><p class="muted">Adjust names and amounts before anything goes into your pantry.</p><div id="confirm-items" class="confirm-items"></div><button class="text-button" id="add-another">＋ Add another ingredient</button><div class="modal-actions"><button class="button secondary" id="back-edit">Back</button><button class="button primary" id="save-pantry">Add to my pantry <span>→</span></button></div></dialog>
+  <dialog id="edit-dialog" class="modal"><form method="dialog" class="modal-close-row"><span class="eyebrow">PANTRY DETAILS</span><button class="icon-button" aria-label="Close">×</button></form><h2>Edit ingredient</h2><form id="edit-form" class="edit-form"><label>Name<input name="name" required maxlength="80"></label><div class="cook-controls"><label>Quantity<input name="quantity" type="number" min="0" step="any"></label><label>Unit<input name="unit" maxlength="30" placeholder="g, cups, pieces"></label></div><label>Category<select name="category"><option>Dairy</option><option>Vegetables</option><option>Fruits</option><option>Grains</option><option>Protein</option><option>Pantry staples</option><option>Frozen</option><option>Other</option></select></label><div class="cook-controls"><label>Purchase date<input name="purchaseDate" type="date"></label><label>Expiry date<input name="expiryDate" type="date"></label></div><div id="notes-display" class="saved-note" hidden></div><label>Notes<textarea name="notes" maxlength="240" rows="2" placeholder="Use for breakfast, opened already…"></textarea></label><div class="modal-actions"><button type="button" class="button secondary" id="cancel-edit">Cancel</button><button class="button primary">Save changes</button></div></form></dialog>
+  <dialog id="detail-dialog" class="modal detail-modal"></dialog>
+  <dialog id="action-confirm-dialog" class="modal" aria-labelledby="action-confirm-title"><form method="dialog" class="modal-close-row"><span class="eyebrow">ONE QUICK CHECK</span><button class="icon-button" aria-label="Close">×</button></form><h2 id="action-confirm-title"></h2><p class="muted" id="action-confirm-copy"></p><div class="modal-actions"><button type="button" class="button secondary" id="action-confirm-cancel">Cancel</button><button type="button" class="button primary" id="action-confirm-submit">Continue</button></div></dialog>
+  <script src="/app.js" defer></script>
+</body>
+</html>
